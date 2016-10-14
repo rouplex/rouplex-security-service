@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-client_name=Monkey
+if [ -z "$client_name" ]; then export client_name=Monkey; fi
 
 client_keystore_jks=${client_name}_client_keystore.jks
 client_keystore_pfx=${client_name}_client_keystore.pfx
-client_keystore_password=${client_name}_ckp
+if [ -z "$client_keystore_password" ]; then export client_keystore_password=${client_name}_ckp; fi
 
 # Export client certificate and privatekey to pfx format
 keytool -importkeystore -srckeystore $client_keystore_jks -srcstoretype JKS -srcstorepass $client_keystore_password -srcalias $client_name -destkeystore $client_keystore_pfx -deststoretype PKCS12 -deststorepass $client_keystore_password -destalias $client_name

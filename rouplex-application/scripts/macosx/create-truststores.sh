@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-domain_name=localhost
-client_name=Monkey
+if [ -z "$domain_name" ]; then export domain_name=localhost; fi
+if [ -z "$client_name" ]; then export client_name=Monkey; fi
 
 server_keystore_jks=${domain_name}_server_keystore.jks
-server_keystore_password=${domain_name}_skp
+if [ -z "$server_keystore_password" ]; then export server_keystore_password=${domain_name}_skp; fi
 server_truststore_jks=${domain_name}_server_truststore.jks
-server_truststore_password=${domain_name}_stp
+if [ -z "$server_truststore_password" ]; then export server_truststore_password=${domain_name}_stp; fi
 
 client_truststore_jks=${client_name}_client_truststore.jks
-client_truststore_password=${client_name}_ctp
+if [ -z "$client_truststore_password" ]; then export client_truststore_password=${client_name}_ctp; fi
 server_cer=${domain_name}.cer
 
 # Import CA public certificate into server's truststore

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-client_name=Monkey
+if [ -z "$client_name" ]; then export client_name=Monkey; fi
 
 client_keystore_jks=${client_name}_client_keystore.jks
-client_keystore_password=${client_name}_ckp
+if [ -z "$client_keystore_password" ]; then export client_keystore_password=${client_name}_ckp; fi
 client_csr=${client_name}.csr
 client_cer=${client_name}.cer
 
