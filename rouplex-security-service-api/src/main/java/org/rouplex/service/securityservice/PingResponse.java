@@ -1,7 +1,8 @@
 package org.rouplex.service.securityservice;
 
-public class HttpRequestResponse {
+public class PingResponse {
     private HttpRequest httpRequest;
+    private SecurityContext securityContext;
     private HttpResponse httpResponse;
 
     public HttpRequest getHttpRequest() {
@@ -10,6 +11,14 @@ public class HttpRequestResponse {
 
     public void setHttpRequest(HttpRequest httpRequest) {
         this.httpRequest = httpRequest;
+    }
+
+    public SecurityContext getSecurityContext() {
+        return securityContext;
+    }
+
+    public void setSecurityContext(SecurityContext securityContext) {
+        this.securityContext = securityContext;
     }
 
     public HttpResponse getHttpResponse() {

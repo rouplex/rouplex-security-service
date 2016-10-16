@@ -2,12 +2,12 @@ package org.rouplex.service.securityservice;
 
 public class SecurityServiceClient implements SecurityService {
     @Override
-    public HttpRequestResponse ping() {
+    public PingResponse ping() {
         return null;
     }
 
     @Override
-    public HttpRequestResponse ping(String payload) {
+    public PingResponse ping(String payload) {
         return null;
     }
 }

@@ -8,9 +8,9 @@ import javax.ws.rs.Path;
 public interface SecurityService {
     @GET
     @Path("/ping")
-    HttpRequestResponse ping();
+    PingResponse ping();
 
     @POST
     @Path("/ping")
-    HttpRequestResponse ping(String payload);
+    PingResponse ping(String payload);
 }

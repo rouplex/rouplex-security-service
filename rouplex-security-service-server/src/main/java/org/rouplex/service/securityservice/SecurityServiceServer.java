@@ -1,53 +1,46 @@
 package org.rouplex.service.securityservice;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import org.glassfish.jersey.server.ResourceConfig;
+import org.rouplex.jaxrs.security.RouplexSecurityContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.SecurityContext;
 import java.util.*;
 
-@Api(value = "/security", description = "SecurityService resource")
-public class JerseySecurityServiceServer extends ResourceConfig implements SecurityService {
-    @Context HttpServletRequest httpServletRequest;
-    @Context HttpServletResponse httpServletResponse;
-    @Context SecurityContext securityContext;
+public class SecurityServiceServer implements SecurityService {
+    HttpServletRequest httpServletRequest;
+    RouplexSecurityContext rouplexSecurityContext;
+    HttpServletResponse httpServletResponse;
 
-    @ApiOperation(value = "Responds back with HttpRequestResponse, providing routing and plexing info")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 404, message = "Not found") })
-    public HttpRequestResponse ping() {
+    public SecurityServiceServer(HttpServletRequest httpServletRequest,
+            RouplexSecurityContext rouplexSecurityContext, HttpServletResponse httpServletResponse) {
+        this.httpServletRequest = httpServletRequest;
+        this.rouplexSecurityContext = rouplexSecurityContext;
+        this.httpServletResponse = httpServletResponse;
+    }
+
+    public PingResponse ping() {
         return buildHttpRequestResponse(null);
     }
 
-    @ApiOperation(value = "Responds back with HttpRequestResponse, providing routing and plexing info")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 400, message = "Invalid request"),
-            @ApiResponse(code = 404, message = "Not found") })
-    public HttpRequestResponse ping(String payload) {
+    public PingResponse ping(String payload) {
         return buildHttpRequestResponse(payload);
     }
 
-    private HttpRequestResponse buildHttpRequestResponse(String payload) {
-        HttpRequestResponse httpRequestResponse = new HttpRequestResponse();
-        httpRequestResponse.setHttpRequest(buildHttpRequest(httpServletRequest, payload));
-        httpRequestResponse.setHttpResponse(buildHttpResponse(httpServletResponse));
-        return httpRequestResponse;
+    private PingResponse buildHttpRequestResponse(String payload) {
+        PingResponse pingResponse = new PingResponse();
+        pingResponse.setHttpRequest(buildHttpRequest(payload));
+        pingResponse.setSecurityContext(buildSecurityContext());
+        pingResponse.setHttpResponse(buildHttpResponse());
+
+        return pingResponse;
     }
 
-    private HttpRequest buildHttpRequest(HttpServletRequest httpServletRequest, String payload) {
+    private HttpRequest buildHttpRequest(String payload) {
         HttpRequest result = new HttpRequest();
 
         result.setAuthType(httpServletRequest.getAuthType());
 
-        SortedMap<String, List<String>> headers = new TreeMap();
+        SortedMap<String, List<String>> headers = new TreeMap<>();
         for (Enumeration<String> headerNames = httpServletRequest.getHeaderNames(); headerNames.hasMoreElements();) {
             String headerName = headerNames.nextElement();
             headers.put(headerName, Collections.list(httpServletRequest.getHeaders(headerName)));
@@ -74,12 +67,24 @@ public class JerseySecurityServiceServer extends ResourceConfig implements Secur
         return result;
     }
 
-    private HttpResponse buildHttpResponse(HttpServletResponse httpServletResponse) {
+    private HttpResponse buildHttpResponse() {
         HttpResponse result = new HttpResponse();
 
         result.setCharacterEncoding(httpServletResponse.getCharacterEncoding());
         result.setContentType(httpServletResponse.getContentType());
         result.setLocale(httpServletResponse.getLocale().toString());
+
+        return result;
+    }
+
+    private SecurityContext buildSecurityContext() {
+        SecurityContext result = new SecurityContext();
+
+        result.setAuthenticated(rouplexSecurityContext.isAuthenticated());
+        result.setAuthenticationScheme(rouplexSecurityContext.getAuthenticationScheme());
+        result.setSecure(rouplexSecurityContext.isSecure());
+        result.setUserPrincipal(buildPrincipal(rouplexSecurityContext.getUserPrincipal()));
+        result.setUserX509Certificate(rouplexSecurityContext.getUserX509Certificate());
 
         return result;
     }
