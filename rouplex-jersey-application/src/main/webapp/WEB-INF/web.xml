@@ -4,11 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <context-param>
-        <param-name>enable-swagger</param-name>
-        <param-value>true</param-value>
-    </context-param>
-
     <!--<filter>-->
         <!--<filter-name>CorsFilter</filter-name>-->
         <!--<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>-->
@@ -19,11 +14,11 @@
     <!--</filter-mapping>-->
 
     <!--<servlet>-->
-        <!--<servlet-name>com.rouplex.SecurityServiceJerseyApplication</servlet-name>-->
+        <!--<servlet-name>org.rouplex.SecurityServiceJerseyApplication</servlet-name>-->
     <!--</servlet>-->
 
     <!--<servlet-mapping>-->
-        <!--<servlet-name>com.rouplex.SecurityServiceJerseyApplication</servlet-name>-->
+        <!--<servlet-name>org.rouplex.SecurityServiceJerseyApplication</servlet-name>-->
         <!--<url-pattern>/rouplex/*</url-pattern>-->
     <!--</servlet-mapping>-->
 </web-app>
