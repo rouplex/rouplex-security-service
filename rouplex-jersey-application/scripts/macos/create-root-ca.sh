@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-echo Creating sub directories
+echo Creating directory structure
+mkdir root-ca
+cp -r templates/root-ca .
+
+pushd root-ca
 mkdir certs db private
 chmod 700 private
 touch db/index
@@ -14,3 +18,4 @@ echo Self signing the csr
 openssl ca -selfsign -config root-ca.conf -in root-ca.csr -out root-ca.crt -extensions ca_ext
 # delete root-ca.csr maybe?
 
+popd

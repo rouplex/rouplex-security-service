@@ -2,13 +2,13 @@
 
 if [ -z "$1" ]
 then
-    echo "Please supply the csr (input -- certificate to sign) file"
+    echo "Please supply the client csr file (input -- certificate to sign)"
     exit 1
 fi
 
 if [ -z "$2" ]
 then
-    echo "Please supply the crt (output -- signed certificate) file"
+    echo "Please supply the client crt file (output -- signed certificate)"
     exit 1
 fi
 
