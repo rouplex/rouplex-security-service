@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 if [ -z "$1" ]
 then
-    echo "Please supply the client name for the client certificate"
+    echo "Please supply the client name (someonw@somewhere.com)"
     exit 1
 fi
 client_name=$1
