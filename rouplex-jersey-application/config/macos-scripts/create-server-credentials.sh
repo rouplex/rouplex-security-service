@@ -9,7 +9,7 @@ server_folder=server-credentials/$domain_name
 
 if [ -z "$2" ]
 then
-    echo "Please supply the organization name (of self -- which should be the name of the sub-ca's)"
+    echo "Please supply the organization name of the server (sub-ca which is going to sign the server's credentials)"
     exit 1
 fi
 organization_name=$2

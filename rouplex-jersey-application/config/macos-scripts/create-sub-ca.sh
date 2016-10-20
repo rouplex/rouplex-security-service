@@ -9,10 +9,17 @@ fi
 
 if [ -z "$1" ]
 then
+    echo "Please supply the sub-ca organization domain suffix"
+    exit 1
+fi
+domain_suffix=$1
+
+if [ -z "$2" ]
+then
     echo "Please supply the sub-ca organization name"
     exit 1
 fi
-organization_name=$1
+organization_name=$2
 sub_ca_folder=sub-cas/sub-ca-$organization_name
 
 if [ -d $sub_ca_folder ]
@@ -20,13 +27,6 @@ then
 	echo "$sub_ca_folder folder already exists. You must delete the existing folder first in order to create a new sub ca"
 	exit 1
 fi
-
-if [ -z "$2" ]
-then
-    echo "Please supply the sub-ca organization domain suffix"
-    exit 1
-fi
-domain_suffix=$2
 
 echo "Rouplex --- Creating directory structure"
 mkdir sub-cas

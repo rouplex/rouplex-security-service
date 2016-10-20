@@ -9,7 +9,7 @@ client_folder=client-credentials/$client_name
 
 if [ -z "$2" ]
 then
-    echo "Please supply the client's organization name"
+    echo "Please supply the organization name of the client (sub-ca which is going to sign the client's credentials)"
     exit 1
 fi
 organization_name=$2
