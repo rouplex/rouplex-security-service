@@ -1,11 +1,25 @@
 #!/usr/bin/env bash
 
+root_ca_folder=root-ca
+if [ ! -d $root_ca_folder ]
+then
+	echo "$root_ca_folder does not exist. You must create the root ca first (you can use create-root-ca.sh script for that)"
+	exit 1
+fi
+
 if [ -z "$1" ]
 then
     echo "Please supply the sub-ca organization name"
     exit 1
 fi
 organization_name=$1
+sub_ca_folder=sub-cas/sub-ca-$organization_name
+
+if [ -d $sub_ca_folder ]
+then
+	echo "$sub_ca_folder folder already exists. You must delete the existing folder first in order to create a new sub ca"
+	exit 1
+fi
 
 if [ -z "$2" ]
 then
@@ -14,20 +28,19 @@ then
 fi
 domain_suffix=$2
 
-echo Creating directory structure
+echo "Rouplex --- Creating directory structure"
 mkdir sub-cas
-pushd sub-cas
+mkdir $sub_ca_folder
+cp templates/sub-ca/*.sh $sub_ca_folder
 
-mkdir sub-ca-$organization_name
-pushd sub-ca-$organization_name
-
+pushd $sub_ca_folder
 mkdir certs db private
 chmod 700 private
 touch db/index
 openssl rand -hex 16  > db/serial
 echo 1001 > db/crlnumber
 
-echo Creating ssl config file
+echo "Rouplex --- Creating ssl config file"
 home=.
 echo "[default]
 name                    = $organization_name
@@ -41,7 +54,7 @@ name_opt                = utf8,esc_ctrl,multiline,lname,align
 [ca_dn]
 countryName             = "US"
 organizationName        = $organization_name
-commonName              = Certificate Signer
+commonName              = $organization_name
 
 
 [ca_default]
@@ -136,19 +149,15 @@ keyUsage                = critical,digitalSignature
 subjectKeyIdentifier    = hash
 " > sub-ca.conf
 
-
-echo Creating Sub CA private key and csr
+echo "Rouplex --- Creating Sub CA private key and csr"
 openssl req -new -config sub-ca.conf -out $organization_name.csr -keyout private/$organization_name.key
 
-echo Signing the csr at root
+echo "Rouplex --- Signing the csr at root"
 pushd ../../root-ca
 ./sign-sub-ca-csr.sh ../sub-cas/sub-ca-$organization_name/$organization_name.csr ../sub-cas/sub-ca-$organization_name/$organization_name.crt
 popd
 
-echo Importing the signed certificate
-# delete ${sub_ca}.csr maybe?
+echo "Rouplex --- Deleting the csr since it is not needed anymore"
+rm $organization_name.csr
 
 popd
-popd
-
-cp templates/sub-ca/*.sh sub-cas/sub-ca-$organization_name
