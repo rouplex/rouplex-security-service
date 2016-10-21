@@ -27,7 +27,7 @@ then
     ./create-client-credentials.sh $client_name $organization_name
 fi
 
-# cp root-ca/root-ca.crt ../root-ca.crt
+cp root-ca/root-ca.crt ../root-ca.crt
 cp sub-cas/sub-ca-$organization_name/$organization_name.crt ../sub-ca.crt
 cp server-credentials/$domain_name/$domain_name-$organization_name.p12 ../server-keystore.p12
 cp client-credentials/$client_name/$client_name-$organization_name.p12 ../client-keystore.p12
@@ -35,6 +35,9 @@ cp client-credentials/$client_name/$client_name-$organization_name.p12 ../client
 cd ..
 rm server-truststore.jks
 keytool -importcert -keystore server-truststore.jks -alias sub-ca -storepass truststore -file sub-ca.crt
+
+rm client-truststore.jks
+keytool -importcert -keystore client-truststore.jks -alias root-ca -storepass truststore -file root-ca.crt
 
 if [[ $1 == "import" ]]
 then
@@ -59,5 +62,5 @@ echo "
    scheme=\"https\" secure=\"true\" SSLEnabled=\"true\"
    keystoreFile=\"$config_folder/server-keystore.p12\" keystoreType=\"PKCS12\" keystorePass=\"localhost\"
    truststoreFile=\"$config_folder/server-truststore.jks\" truststoreType=\"JKS\" truststorePass=\"truststore\"
-   SSLVerifyClient=\"require\" SSLEngine=\"on\" SSLVerifyDepth=\"3\" sslProtocol=\"TLS\"
+   SSLVerifyClient=\"optional\" SSLEngine=\"on\" SSLVerifyDepth=\"3\" sslProtocol=\"TLS\"
 />"
