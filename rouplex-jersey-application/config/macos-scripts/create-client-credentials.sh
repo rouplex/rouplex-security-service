@@ -3,7 +3,7 @@ echo "Rouplex --- Creating client credentials"
 
 if [ -z "$1" ]
 then
-    echo "Please supply the client name (someone@somewhere.com)"
+    echo "Please supply the client name as first parameter"
     exit 1
 fi
 client_name=$1
@@ -11,7 +11,7 @@ client_folder=client-credentials/$client_name
 
 if [ -z "$2" ]
 then
-    echo "Please supply the organization name of the client (sub-ca which is going to sign the client's credentials)"
+    echo "Please supply the organization name of the client as second parameter (sub-ca which is going to sign the client's credentials)"
     exit 1
 fi
 organization_name=$2
