@@ -50,10 +50,10 @@ echo "Rouplex --- Deleting the certificate signing request since it is not neede
 rm $client_path.csr
 
 echo "Rouplex --- Creating pkcs12 certificate (private key and certificate chain included) ready for use on ssl client"
-echo "Rouplex === [The password you are asked for, is '$client_name' (no quotes)] ==="
+echo "Rouplex === [The password you are asked for, is for protecting the client-keystore.p12 and you can chose '$client_name' (no quotes) for the sake of this demo] ==="
 cat $client_path.crt > $client_path-cert-chain.crt
 cat sub-cas/sub-ca-$organization_name/$organization_name.crt >> $client_path-cert-chain.crt
 cat root-ca/root-ca.crt >> $client_path-cert-chain.crt
-openssl pkcs12 -export -name "$client_name-$organization_name" -out $client_path.p12 -inkey $client_folder/$client_name.key -in $client_path.crt -certfile $client_path-cert-chain.crt
+openssl pkcs12 -export -name "$client_name" -out $client_path.p12 -inkey $client_folder/$client_name.key -in $client_path.crt -certfile $client_path-cert-chain.crt
 
 echo "Rouplex --- Created client credentials"

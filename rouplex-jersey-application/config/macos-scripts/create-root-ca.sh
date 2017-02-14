@@ -17,7 +17,7 @@ mkdir certs db private
 chmod 700 private
 touch db/index
 # openssl rand -hex 16  > db/serial
-echo 01 > db/serial
+echo AA14 > db/serial
 echo 1001 > db/crlnumber
 
 echo "Rouplex --- Creating private key and certificate signing request"

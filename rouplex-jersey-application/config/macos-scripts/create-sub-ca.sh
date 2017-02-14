@@ -39,7 +39,7 @@ mkdir certs db private
 chmod 700 private
 touch db/index
 #openssl rand -hex 16  > db/serial
-echo 02 > db/serial
+echo BB14 > db/serial
 echo 1001 > db/crlnumber
 
 echo "Rouplex --- Creating ssl config file"

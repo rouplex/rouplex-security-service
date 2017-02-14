@@ -32,29 +32,39 @@ then
     ./create-client-credentials.sh $client_name $organization_name
 fi
 
+echo "Rouplex --- Copying root-ca public certificate to config folder"
 cp root-ca/root-ca.crt ../root-ca.crt
+
+echo "Rouplex --- Copying sub-ca public certificate to config folder"
 cp sub-cas/sub-ca-$organization_name/$organization_name.crt ../sub-ca.crt
+
+echo "Rouplex --- Copying server-keystore to config folder"
 cp server-credentials/$domain_name/$domain_name-$organization_name.p12 ../server-keystore.p12
+
+echo "Rouplex --- Copying client-keystore to config folder"
 cp client-credentials/$client_name/$client_name-$organization_name.p12 ../client-keystore.p12
 
 cd ..
 rm server-truststore.jks
+echo "Rouplex --- Creating server-truststore.jks (password truststore)"
 keytool -importcert -keystore server-truststore.jks -alias sub-ca -storepass truststore -file sub-ca.crt
 
 rm client-truststore.jks
+echo "Rouplex --- Creating client-truststore.jks (password truststore)"
 keytool -importcert -keystore client-truststore.jks -alias root-ca -storepass truststore -file root-ca.crt
 
 if [[ $1 == "import" ]]
 then
-    echo "Rouplex --- Importing client's private key for $client_name and root-ca's public certificate in system's keystore"
+    echo "Rouplex --- Adding trusted cert root-ca in the System Roots certificates (so that browsers or system tools automatically trust our localhost which is signed by sub-ca which is signed by this root-ca)"
+    echo "Rouplex === [The password you are asked for, is of the Macos admin (to grant macosx Keychain access)] ==="
+    sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain root-ca.crt
+
+    echo "Rouplex --- Importing client certificate along with related private key for $client_name so thet browsers or system tools pick this one up when authenticating themselves to the remote servers)"
     # Import client certificate and private key to keychain
     security import client-keystore.p12 -k /Users/${USER}/Library/Keychains/login.keychain-db -t cert -f pkcs12 -P $client_name
 
     # Delete previous certificate from keychain
-    security delete-certificate -c Rouplex_Root_CA_Org_Example
-
-    # Import server certificate to keychain
-    security import root-ca.crt -k /Users/${USER}/Library/Keychains/login.keychain-db -t cert
+    # security delete-certificate -c Rouplex_Root_CA_Org_Example
 fi
 
 config_folder=`pwd`
