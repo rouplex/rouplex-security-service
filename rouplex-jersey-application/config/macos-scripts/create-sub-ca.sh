@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 
+echo "Rouplex --- Creating sub-ca"
 root_ca_folder=root-ca
 if [ ! -d $root_ca_folder ]
 then
-	echo "$root_ca_folder does not exist. You must create the root ca first (you can use create-root-ca.sh script for that)"
+	echo "Rouplex --- Folder $root_ca_folder does not exist. You must create the root ca first (you can use create-root-ca.sh script for that)"
 	exit 1
 fi
 
 if [ -z "$1" ]
 then
-    echo "Please supply the sub-ca organization domain suffix"
+    echo "Rouplex --- Please supply the sub-ca organization domain suffix"
     exit 1
 fi
 domain_suffix=$1
@@ -28,7 +29,7 @@ then
 	exit 1
 fi
 
-echo "Rouplex --- Creating directory structure"
+echo "Rouplex --- Creating directory structure for sub-ca $organization_name at `pwd`/$sub_ca_folder folder"
 mkdir sub-cas
 mkdir $sub_ca_folder
 cp templates/sub-ca/*.sh $sub_ca_folder
@@ -150,15 +151,18 @@ keyUsage                = critical,digitalSignature
 subjectKeyIdentifier    = hash
 " > sub-ca.conf
 
-echo "Rouplex --- Creating Sub CA private key and csr"
+echo "Rouplex --- Creating private key and certificate signing request"
+echo "Rouplex === [The password you are asked for twice, is of the sub-ca] ==="
 openssl req -new -config sub-ca.conf -out $organization_name.csr -keyout private/$organization_name.key
 
-echo "Rouplex --- Signing the csr at root"
+echo "Rouplex --- Signing the certificate signing request by root-ca"
+echo "Rouplex === [The password you are asked for, is of the root-ca] ==="
 pushd ../../root-ca
 ./sign-sub-ca-csr.sh ../sub-cas/sub-ca-$organization_name/$organization_name.csr ../sub-cas/sub-ca-$organization_name/$organization_name.crt
 popd
 
-echo "Rouplex --- Deleting the csr since it is not needed anymore"
+echo "Rouplex --- Deleting the certificate signing request since it is not needed anymore"
 rm $organization_name.csr
 
 popd
+echo "Rouplex --- Created sub-ca"

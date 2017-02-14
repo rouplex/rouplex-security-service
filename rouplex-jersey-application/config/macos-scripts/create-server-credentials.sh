@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+echo "Rouplex --- Creating server credentials"
+
 if [ -z "$1" ]
 then
     echo "Please supply the domain name for the server certificate"
@@ -44,12 +46,13 @@ C = US
 [ext]
 subjectAltName = DNS:www.$domain_name,DNS:$domain_name" > server.conf
 
-echo "Rouplex --- Creating csr for $domain_name"
+echo "Rouplex --- Creating certificate signing request for $domain_name"
 openssl req -new -config server.conf -key $domain_name.key -out $domain_name-$organization_name.csr
 
 popd
 
-echo "Rouplex --- Signing certificate by sub-ca-$organization_name"
+echo "Rouplex --- Signing certificate signing request by sub-ca-$organization_name"
+echo "Rouplex === [The password you are asked for, is of the sub-ca] ==="
 pushd $sub_ca_folder
 ./sign-server-csr.sh ../../$server_path.csr ../../$server_path.crt
 popd
@@ -58,7 +61,10 @@ echo "Rouplex --- Deleting the csr since it is not needed anymore"
 rm $server_path.csr
 
 echo "Rouplex --- Creating pkcs12 certificate (private key and certificate chain included) ready for use on ssl server"
+echo "Rouplex === [The password you are asked for, is '$domain_name' (no quotes)] ==="
 cat $server_path.crt > $server_path-cert-chain.crt
 cat sub-cas/sub-ca-$organization_name/$organization_name.crt >> $server_path-cert-chain.crt
 cat root-ca/root-ca.crt >> $server_path-cert-chain.crt
 openssl pkcs12 -export -name "$client_name-$organization_name" -out $server_path.p12 -inkey $server_folder/$domain_name.key -in $server_path.crt -certfile $server_path-cert-chain.crt
+
+echo "Rouplex --- Created server credentials"

@@ -6,6 +6,7 @@
 if [ -z "$domain_name" ]; then export domain_name=localhost; fi
 if [ -z "$client_name" ]; then export client_name=meme; fi
 if [ -z "$organization_name" ]; then export organization_name=Rouplex_Sub_CA_Org_Example; fi
+echo "Rouplex --- Using domain_name=$domain_name, client_name=$client_name, organization_name=$organization_name"
 
 root_ca_folder=root-ca
 if [ ! -d $root_ca_folder ]
