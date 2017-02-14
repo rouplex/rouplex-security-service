@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.rouplex.jaxrs.security.RouplexSecurityContext;
+import org.rouplex.platform.jaxrs.security.RouplexSecurityContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

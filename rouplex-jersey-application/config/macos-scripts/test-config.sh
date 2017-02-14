@@ -9,7 +9,7 @@ then
     echo "Rouplex --- Testing with mutual authentication"
     curl -X GET --header 'Accept: application/json' 'https://localhost:8088/rouplex/security/ping' --cert ../client-keystore.p12:meme --cacert ../sub-ca.crt
     if [[ $? != 0 ]]; then echo; echo "Rouplex --- Test failed"; exit 1; fi
-elif [[ $1 == "require" ]]
+elif [[ $1 == "required" ]]
 then
     echo "Rouplex --- Testing with mutual authentication"
     curl -X GET --header 'Accept: application/json' 'https://localhost:8088/rouplex/security/ping' --cert ../client-keystore.p12:meme --cacert ../sub-ca.crt

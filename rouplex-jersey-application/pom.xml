@@ -24,7 +24,7 @@
 
         <dependency>
             <groupId>org.rouplex</groupId>
-            <artifactId>rouplex-core-jersey</artifactId>
+            <artifactId>platform-jersey-server</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

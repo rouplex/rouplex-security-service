@@ -1,6 +1,6 @@
 package org.rouplex.service.securityservice;
 
-import org.rouplex.jaxrs.security.RouplexSecurityContext;
+import org.rouplex.platform.jaxrs.security.RouplexSecurityContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

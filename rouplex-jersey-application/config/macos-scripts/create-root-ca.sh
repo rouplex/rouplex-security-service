@@ -15,7 +15,8 @@ pushd $root_ca_folder
 mkdir certs db private
 chmod 700 private
 touch db/index
-openssl rand -hex 16  > db/serial
+# openssl rand -hex 16  > db/serial
+echo 01 > db/serial
 echo 1001 > db/crlnumber
 
 echo "Rouplex --- Creating Root CA private key and csr folder: `pwd`"

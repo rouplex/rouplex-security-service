@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# this script will set up the everything that does not already exist:
+# root-ca, sub-ca, client-credentials, server-credentials
+
 if [ -z "$domain_name" ]; then export domain_name=localhost; fi
 if [ -z "$client_name" ]; then export client_name=meme; fi
 if [ -z "$organization_name" ]; then export organization_name=Rouplex_Sub_CA_Org_Example; fi
