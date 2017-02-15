@@ -55,16 +55,15 @@ keytool -importcert -keystore client-truststore.jks -alias root-ca -storepass tr
 
 if [[ $1 == "import" ]]
 then
+    echo "Rouplex --- Deleting the previous Rouplex_Root_CA_Org_Example, it already present Keychain"
+    security delete-certificate -c Rouplex_Root_CA_Org_Example
+
     echo "Rouplex --- Adding trusted cert root-ca in the System Roots certificates (so that browsers or system tools automatically trust our localhost which is signed by sub-ca which is signed by this root-ca)"
     echo "Rouplex === [The password you are asked for, is of the Macos admin (to grant macosx Keychain access)] ==="
     sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain root-ca.crt
 
     echo "Rouplex --- Importing client certificate along with related private key for $client_name so thet browsers or system tools pick this one up when authenticating themselves to the remote servers)"
-    # Import client certificate and private key to keychain
     security import client-keystore.p12 -k /Users/${USER}/Library/Keychains/login.keychain-db -t cert -f pkcs12 -P $client_name
-
-    # Delete previous certificate from keychain
-    # security delete-certificate -c Rouplex_Root_CA_Org_Example
 fi
 
 config_folder=`pwd`
