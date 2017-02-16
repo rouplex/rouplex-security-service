@@ -7,19 +7,19 @@
     <parent>
         <groupId>org.rouplex</groupId>
         <artifactId>rouplex-security-service</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.rouplex</groupId>
     <artifactId>rouplex-security-service-client</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>org.rouplex</groupId>
             <artifactId>rouplex-security-service-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>0.0-SNAPSHOT</version>
         </dependency>
 
          <!--client web api-->
