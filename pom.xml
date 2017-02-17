@@ -45,10 +45,9 @@
     </build>
 
     <modules>
-        <module>rouplex-security-service-api</module>
-        <module>rouplex-security-service-client</module>
-        <module>rouplex-security-service-server</module>
-        <module>rouplex-security-service-jersey-resource</module>
-        <module>rouplex-jersey-application</module>
+        <module>security-service-api</module>
+        <module>security-service-client</module>
+        <module>security-service-provider</module>
+        <module>security-service-application</module>
     </modules>
 </project>
