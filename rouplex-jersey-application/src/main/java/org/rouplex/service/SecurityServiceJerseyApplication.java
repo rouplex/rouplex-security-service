@@ -13,6 +13,6 @@ public class SecurityServiceJerseyApplication extends RouplexApplication {
     public SecurityServiceJerseyApplication(@Context ServletContext servletContext) {
         super(servletContext);
 
-        binder.bindResource(SecurityServiceJerseyResource.class, true);
+        bindResource(SecurityServiceJerseyResource.class, true);
     }
 }
