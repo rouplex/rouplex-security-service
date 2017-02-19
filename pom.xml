@@ -48,6 +48,6 @@
         <module>security-service-api</module>
         <module>security-service-client</module>
         <module>security-service-provider</module>
-        <module>security-service-application</module>
+        <module>security-service-provider-jersey</module>
     </modules>
 </project>

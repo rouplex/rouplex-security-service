@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>org.rouplex</groupId>
-    <artifactId>security-service-application</artifactId>
+    <artifactId>security-service-provider-jersey</artifactId>
     <version>0.0-SNAPSHOT</version>
     <packaging>war</packaging>
 

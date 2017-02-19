@@ -16,22 +16,21 @@
     <packaging>jar</packaging>
 
     <dependencies>
-
-        <!-- Server must always depend on the interface it is implementing -->
+        <!-- Server always depends on the interface it is implementing -->
         <dependency>
             <groupId>org.rouplex</groupId>
             <artifactId>security-service-api</artifactId>
             <version>0.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- Server uses platform resources (but that often is not the case) -->
+        <!-- Server in this case uses platform resources (usually not the case) -->
         <dependency>
             <groupId>org.rouplex</groupId>
             <artifactId>platform-jaxrs</artifactId>
             <version>0.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- Server needs http constructs (but that often is not the case) -->
+        <!-- Server needs http constructs (usually not the case) -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-servlet-api</artifactId>
